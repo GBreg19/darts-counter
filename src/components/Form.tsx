@@ -68,6 +68,10 @@ const Form = () => {
       player3: player3Ref.current?.value || null,
       player4: player4Ref.current?.value || null,
     };
+
+    Object.values(playerNameObj).map((name) => {
+      DartCtx.setPlayers(prevState => [...prevState, {name: name, score: enteredMaxScore}])
+    })
     DartCtx.setPlayerNames((prevState) => ({ ...prevState, ...playerNameObj }));
 
     // if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
@@ -86,10 +90,10 @@ const Form = () => {
       onSubmit={formSubmit}
       className="m-auto w-1/4 flex flex-col justify-between max-h-[500px] bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3"
     >
-      <div className="py-3 rounded-t-md bg-dartGreen1">
+      <div className="py-1 rounded-t-md bg-dartGreen1">
         <div className="w-1/3 m-auto flex flex-col items-center">
           <GiDart className="rounded-full w-10 h-10 px-1 text-white" />
-          <h1 className="text-white text-xl font-medium">Play Darts</h1>
+          <h1 className="text-white text-lg font-medium">Play Darts</h1>
         </div>
       </div>
       <div className="m-auto w-full p-5 flex flex-col gap-1">

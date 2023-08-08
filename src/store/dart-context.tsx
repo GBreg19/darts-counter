@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useState } from "react";
 
-type PlayerObj = {
+type PlayerNamesObj = {
   player1: string | null;
   player2: string | null;
   player3: string | null;
@@ -23,17 +23,24 @@ type playerNameObj = {
   player4: string | null;
 };
 
+type PlayerObj = {
+  name: string;
+  score: number;
+};
+
 type DartContextType = {
   playerQuantity: number;
   setPlayerQuantity: React.Dispatch<React.SetStateAction<number>>;
   maxScore: number;
   setMaxScore: React.Dispatch<React.SetStateAction<number>>;
   playerNames: playerNameObj;
-  setPlayerNames: React.Dispatch<React.SetStateAction<PlayerObj>>;
+  setPlayerNames: React.Dispatch<React.SetStateAction<PlayerNamesObj>>;
   isSubmitted: boolean;
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
   error: ErrorObj;
   setError: React.Dispatch<React.SetStateAction<ErrorObj>>;
+  players: PlayerObj[];
+  setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -59,6 +66,8 @@ export const DartContext = createContext<DartContextType>({
     player4: null,
   },
   setError: () => {},
+  players: [],
+  setPlayers: () => {},
 });
 
 type Props = {
@@ -70,6 +79,8 @@ const DartContextProvider = (props: Props) => {
   const [playerQuantity, setPlayerQuantity] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
 
+  const [players, setPlayers] = useState<PlayerObj[]>([]);
+
   const [error, setError] = useState<ErrorObj>({
     playerNum: null,
     score: null,
@@ -79,7 +90,7 @@ const DartContextProvider = (props: Props) => {
     player4: null,
   });
 
-  const [playerNames, setPlayerNames] = useState<PlayerObj>({
+  const [playerNames, setPlayerNames] = useState<PlayerNamesObj>({
     player1: null,
     player2: null,
     player3: null,
@@ -97,6 +108,8 @@ const DartContextProvider = (props: Props) => {
     setIsSubmitted,
     error,
     setError,
+    players,
+    setPlayers,
   };
 
   return (
