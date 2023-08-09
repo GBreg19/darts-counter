@@ -62,20 +62,46 @@ const Form = () => {
 
     DartCtx.setMaxScore(enteredMaxScore);
 
-    const playerNameObj = {
-      player1: player1Ref.current?.value || null,
-      player2: player2Ref.current?.value || null,
-      player3: player3Ref.current?.value || null,
-      player4: player4Ref.current?.value || null,
-    };
+    const playerNameObj =
+      DartCtx.playerQuantity === 1
+        ? {
+            player1: player1Ref.current?.value || null,
+          }
+        : DartCtx.playerQuantity === 2
+        ? {
+            player1: player1Ref.current?.value || null,
+            player2: player2Ref.current?.value || null,
+          }
+        : DartCtx.playerQuantity === 3
+        ? {
+            player1: player1Ref.current?.value || null,
+            player2: player2Ref.current?.value || null,
+            player3: player3Ref.current?.value || null,
+          }
+        : DartCtx.playerQuantity === 4
+        ? {
+            player1: player1Ref.current?.value || null,
+            player2: player2Ref.current?.value || null,
+            player3: player3Ref.current?.value || null,
+            player4: player4Ref.current?.value || null,
+          }
+        : "";
 
     Object.values(playerNameObj).map((name) => {
-      DartCtx.setPlayers(prevState => [...prevState, {name: name, score: enteredMaxScore}])
-    })
+      DartCtx.setPlayers((prevState) => [
+        ...prevState,
+        {
+          id: Math.random(),
+          name: name || "",
+          score: enteredMaxScore,
+        },
+      ]);
+    });
+
     DartCtx.setPlayerNames((prevState) => ({ ...prevState, ...playerNameObj }));
 
     // if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
-      DartCtx.setIsSubmitted(true);
+    DartCtx.setIsSubmitted(true);
     // } else if (DartCtx.playerQuantity === 0) {
     //   errorObj.playerNum = "You should choose 1 or more players to play";
     // } else if (enteredMaxScore === 0) {

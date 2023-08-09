@@ -1,5 +1,6 @@
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { DartContext } from "../store/dart-context";
+import Input from "../layout/Input";
 
 const Table = () => {
   const DartCtx = useContext(DartContext);
@@ -7,16 +8,22 @@ const Table = () => {
   return (
     <div className="w-1/2 m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
       <h1 className="text-4xl text-center">Let's Play!</h1>
-      <div className="w-full border-2 border-red-300 mt-5 flex justify-between">
+      <div
+        className={`w-full mt-5 grid grid-cols-${DartCtx.players.length} justify-between px-5`}
+      >
         {Array.from({ length: DartCtx.playerQuantity }, (_, index) => (
-          <div className="border border-black">
-            <div key={index} >
+          <div key={index} className="w-full">
+            <div>
               {Object.values(DartCtx.playerNames).map((name, i) =>
-                index === i ? <h1 key={i}>{name} ({DartCtx.maxScore})</h1> : null
+                index === i ? (
+                  <h1 key={i} className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center">
+                    {name} ({DartCtx.maxScore})
+                  </h1>
+                ) : null
               )}
             </div>
             <div>
-              <h1>ragaca</h1>
+              <Input />
             </div>
           </div>
         ))}
