@@ -25,7 +25,8 @@ type playerNameObj = {
 
 type PlayerObj = {
   name: string;
-  score: number;
+  totalPoints: number;
+  pointsPerFrame: number | null;
 };
 
 type DartContextType = {

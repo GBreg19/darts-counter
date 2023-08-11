@@ -93,7 +93,8 @@ const Form = () => {
         {
           id: Math.random(),
           name: name || "",
-          score: enteredMaxScore,
+          totalPoints: enteredMaxScore,
+          pointsPerFrame: null,
         },
       ]);
     });

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -19,7 +19,7 @@ const Table = () => {
         </button>
       </div>
       <div
-        className={`w-full mt-5 grid grid-cols-${DartCtx.players.length} justify-between px-5`}
+        className={`w-full mt-5 grid grid-cols-${DartCtx.playerQuantity} justify-between px-5`}
       >
         {Array.from({ length: DartCtx.players.length }, (_, index) => (
           <div key={index} className="w-full">
@@ -28,9 +28,9 @@ const Table = () => {
                 index === i ? (
                   <Fragment key={i}>
                     <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center">
-                      {player.name} ({player.score})
+                      {player.name} ({player.totalPoints})
                     </h1>
-                    <Input id={i} />
+                    <Input id={i}/>
                   </Fragment>
                 ) : null
               )}
