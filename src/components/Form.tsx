@@ -94,7 +94,6 @@ const Form = () => {
           id: Math.random(),
           name: name || "",
           totalPoints: enteredMaxScore,
-          pointsPerFrame: null,
         },
       ]);
     });

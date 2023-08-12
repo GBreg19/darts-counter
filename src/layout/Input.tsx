@@ -1,15 +1,12 @@
-import { useContext } from "react";
-import { DartContext } from "../store/dart-context";
-
 type InpProps = {
-  id: number;
+  onChange: (val: number) => void;
 };
 
-const Input = ({ id }: InpProps) => {
-  const DartCtx = useContext(DartContext);
-
+const Input = ({ onChange }: InpProps) => {
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+    const value = event.target.value;
+    const convertedValue = parseInt(value);
+    onChange(convertedValue);
   };
 
   return (
