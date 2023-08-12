@@ -1,12 +1,12 @@
 type InpProps = {
-  onChange: (val: number) => void;
+  onChange: (val: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const Input = ({ onChange }: InpProps) => {
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const convertedValue = parseInt(value);
-    onChange(convertedValue);
+    onChange(convertedValue, event);
   };
 
   return (

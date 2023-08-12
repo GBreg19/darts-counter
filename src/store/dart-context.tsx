@@ -41,6 +41,8 @@ type DartContextType = {
   setError: React.Dispatch<React.SetStateAction<ErrorObj>>;
   players: PlayerObj[];
   setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
+  inputValues: PlayerObj[];
+  setInputValues: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -68,6 +70,8 @@ export const DartContext = createContext<DartContextType>({
   setError: () => {},
   players: [],
   setPlayers: () => {},
+  inputValues: [],
+  setInputValues: () => {},
 });
 
 type Props = {
@@ -78,6 +82,7 @@ const DartContextProvider = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [playerQuantity, setPlayerQuantity] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
+  const [inputValues, setInputValues] = useState<PlayerObj[]>([]);
 
   const [players, setPlayers] = useState<PlayerObj[]>([]);
 
@@ -110,6 +115,8 @@ const DartContextProvider = (props: Props) => {
     setError,
     players,
     setPlayers,
+    inputValues,
+    setInputValues,
   };
 
   return (
