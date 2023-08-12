@@ -1,14 +1,22 @@
-import { Fragment, useContext, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
 
 const Table = () => {
   const DartCtx = useContext(DartContext);
-  const [inputValues, setInputValues] = useState<number[]>([]);
   const inpRef = useRef(null);
+  const [isInputActive, setIsInputActive] = useState(false);
 
-  const playerInputHandler = (value: number, index: number) => {
+  const playerInputHandler = (value: number, index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+
+    // if (document.activeElement === inpRef.current) {
+    //   setIsInputActive(true)
+    // } else {
+    //   setIsInputActive(false)
+    // }
+    console.log(event)
+
     const updatedPlayers = [...DartCtx.players];
 
     updatedPlayers[index] = {
@@ -16,37 +24,26 @@ const Table = () => {
       totalPoints: updatedPlayers[index].totalPoints - value,
     };
 
-    console.log(updatedPlayers[index].totalPoints, value);
+    // console.log(updatedPlayers[index].totalPoints, value);
 
-    DartCtx.setPlayers(updatedPlayers);
-  };
-
-  const onChangeHandler = () => {
-    if (document.activeElement === inpRef.current) {
-      console.log("active");
-    } else {
-      console.log("inactive");
-    }
+    DartCtx.setInputValues(updatedPlayers);
   };
 
   console.log(DartCtx.players);
 
   const playersLength = DartCtx.players.length;
 
-  const playerNum =
-    playersLength === 1
-      ? "1"
-      : playersLength === 2
-      ? "2"
-      : playersLength === 3
-      ? "3"
-      : "4";
+  useEffect(() => {
+    // if(isInputActive){
+    //   DartCtx.setPlayers(DartCtx.inputValues)
+    // }
+    console.log(isInputActive)
+  }, [isInputActive]);
 
   return (
     <div className="w-1/2 m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
       <div className="relative">
         <h1 className="text-4xl text-center">Let's Play!</h1>
-        <input ref={inpRef} placeholder="" onChange={onChangeHandler} />
         <button
           className="absolute top-1/2 -translate-y-1/2 right-10 text-xl"
           title="Refresh"
@@ -55,7 +52,15 @@ const Table = () => {
         </button>
       </div>
       <div
-        className={`w-full mt-5 grid grid-cols-${playerNum} justify-between px-5`}
+        className={`w-full mt-5 grid grid-cols-${
+          playersLength === 1
+            ? 1
+            : playersLength === 2
+            ? 2
+            : playersLength === 3
+            ? 3
+            : 4
+        } justify-between px-5`}
       >
         {Array.from({ length: DartCtx.players.length }, (_, index) => (
           <div key={index} className="w-full">
@@ -68,7 +73,7 @@ const Table = () => {
                     </h1>
                     {
                       <Input
-                        onChange={(value) => playerInputHandler(value, index)}
+                        onChange={(value, event) => playerInputHandler(value, index, event) onfocus}
                       />
                     }
                   </Fragment>
