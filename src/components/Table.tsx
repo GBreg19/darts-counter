@@ -5,18 +5,13 @@ import { LuRefreshCcw } from "react-icons/lu";
 
 const Table = () => {
   const DartCtx = useContext(DartContext);
-  const inpRef = useRef(null);
   const [isInputActive, setIsInputActive] = useState(false);
 
-  const playerInputHandler = (value: number, index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-
-    // if (document.activeElement === inpRef.current) {
-    //   setIsInputActive(true)
-    // } else {
-    //   setIsInputActive(false)
-    // }
-    console.log(event)
-
+  const playerInputHandler = (
+    value: number,
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const updatedPlayers = [...DartCtx.players];
 
     updatedPlayers[index] = {
@@ -24,20 +19,32 @@ const Table = () => {
       totalPoints: updatedPlayers[index].totalPoints - value,
     };
 
-    // console.log(updatedPlayers[index].totalPoints, value);
-
     DartCtx.setInputValues(updatedPlayers);
   };
-
-  console.log(DartCtx.players);
 
   const playersLength = DartCtx.players.length;
 
   useEffect(() => {
-    // if(isInputActive){
-    //   DartCtx.setPlayers(DartCtx.inputValues)
-    // }
-    console.log(isInputActive)
+    if (isInputActive) {
+      return;
+    } else {
+      DartCtx.setPlayers((prevState) => {
+        const updatedPlayers = prevState.map((player) => {
+          const matchingInput = DartCtx.inputValues.find(
+            (inputPlayer) => inputPlayer.name === player.name
+          );
+          if (matchingInput) {
+            return {
+              ...player,
+              totalPoints: matchingInput.totalPoints,
+            };
+          }
+          return player;
+        });
+
+        return updatedPlayers;
+      });
+    }
   }, [isInputActive]);
 
   return (
@@ -73,7 +80,10 @@ const Table = () => {
                     </h1>
                     {
                       <Input
-                        onChange={(value, event) => playerInputHandler(value, index, event) onfocus}
+                        setFunc={setIsInputActive}
+                        onChange={(value, event) =>
+                          playerInputHandler(value, index, event)
+                        }
                       />
                     }
                   </Fragment>
