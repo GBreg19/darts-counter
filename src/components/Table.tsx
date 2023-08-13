@@ -6,7 +6,6 @@ import { LuRefreshCcw } from "react-icons/lu";
 const Table = () => {
   const DartCtx = useContext(DartContext);
   const [isInputActive, setIsInputActive] = useState(false);
-  const [inputValue, setInputValue] = useState("");
 
   const playerInputHandler = (
     value: number,
@@ -22,6 +21,8 @@ const Table = () => {
 
     DartCtx.setInputValues(updatedPlayers);
   };
+
+  const pointsCalcFunc = () => {}
 
   useEffect(() => {
     if (isInputActive) {
@@ -41,7 +42,7 @@ const Table = () => {
           return player;
         });
 
-        setInputValue("");
+        // DartCtx.setPointsInputValue("");
         return updatedPlayers;
       });
     }
@@ -69,9 +70,7 @@ const Table = () => {
                       {player.name} ({player.totalPoints})
                     </h1>
                     {
-                      <Input
-                        value={inputValue}
-                        setInpVal={setInputValue}
+                      <Input  
                         setFunc={setIsInputActive}
                         onChange={(value, event) =>
                           playerInputHandler(value, index, event)
