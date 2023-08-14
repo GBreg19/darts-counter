@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -6,6 +6,18 @@ import { LuRefreshCcw } from "react-icons/lu";
 const Table = () => {
   const DartCtx = useContext(DartContext);
   const [isInputActive, setIsInputActive] = useState(false);
+
+  type inpTypes = {
+    [key: string]: string;
+  };
+  const playerInputValues: inpTypes = {};
+
+  for (let i = 1; i < DartCtx.playerQuantity + 1; i++) {
+    playerInputValues[`player${i}`] = "";
+  }
+
+  const [pointsInputValue, setPointsInputValue] =
+    useState<inpTypes>(playerInputValues);
 
   const playerInputHandler = (
     value: number,
@@ -22,9 +34,7 @@ const Table = () => {
     DartCtx.setInputValues(updatedPlayers);
   };
 
-  const pointsCalcFunc = () => {}
-
-  useEffect(() => {
+  const pointsCalcFunc = () => {
     if (isInputActive) {
       return;
     } else {
@@ -42,10 +52,14 @@ const Table = () => {
           return player;
         });
 
-        // DartCtx.setPointsInputValue("");
+        // setInputValue("");
         return updatedPlayers;
       });
     }
+  };
+
+  useEffect(() => {
+    pointsCalcFunc();
   }, [isInputActive]);
 
   return (
@@ -70,7 +84,9 @@ const Table = () => {
                       {player.name} ({player.totalPoints})
                     </h1>
                     {
-                      <Input  
+                      <Input
+                        value={pointsInputValue}
+                        index={index}
                         setFunc={setIsInputActive}
                         onChange={(value, event) =>
                           playerInputHandler(value, index, event)
