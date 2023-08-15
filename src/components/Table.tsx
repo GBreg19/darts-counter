@@ -7,23 +7,28 @@ const Table = () => {
   const DartCtx = useContext(DartContext);
   const [isInputActive, setIsInputActive] = useState(false);
 
-  type inpTypes = {
-    [key: string]: string;
+  type InpTypes = {
+    [key: string]: string | number;
   };
-  const playerInputValues: inpTypes = {};
+  const playerInputValues: InpTypes = {};
 
   for (let i = 1; i < DartCtx.playerQuantity + 1; i++) {
     playerInputValues[`player${i}`] = "";
   }
 
   const [pointsInputValue, setPointsInputValue] =
-    useState<inpTypes>(playerInputValues);
+    useState<InpTypes>(playerInputValues);
 
-  const playerInputHandler = (
-    value: number,
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const playerInputHandler = (value: number, index: number) => {
+    const updatedPlayerInputs = { ...pointsInputValue };
+
+    Object.entries(updatedPlayerInputs).map(([key]) => {
+      if (`player${index + 1}` === key) {
+        updatedPlayerInputs[key] = value;
+      }
+    });
+    setPointsInputValue(updatedPlayerInputs);
+
     const updatedPlayers = [...DartCtx.players];
 
     updatedPlayers[index] = {
@@ -52,7 +57,16 @@ const Table = () => {
           return player;
         });
 
-        // setInputValue("");
+        setPointsInputValue((prevState) => {
+          const updatedInpValues = { ...prevState };
+
+          Object.keys(updatedInpValues).forEach((key) => {
+            updatedInpValues[key] = "";
+          });
+
+          return updatedInpValues;
+        });
+        
         return updatedPlayers;
       });
     }
@@ -88,9 +102,7 @@ const Table = () => {
                         value={pointsInputValue}
                         index={index}
                         setFunc={setIsInputActive}
-                        onChange={(value, event) =>
-                          playerInputHandler(value, index, event)
-                        }
+                        onChange={(value) => playerInputHandler(value, index)}
                       />
                     }
                   </Fragment>
