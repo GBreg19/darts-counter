@@ -1,59 +1,30 @@
-import { useContext, useRef } from "react";
+import { RefObject, useContext, useRef, useState } from "react";
 import PlayerForm from "../layout/PlayerForm";
 import { DartContext } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
-const errorObj = {
-  playerNum: "",
-  score: "",
-  player1: "",
-  player2: "",
-  player3: "",
-  player4: "",
-};
-
 const Form = () => {
   const DartCtx = useContext(DartContext);
+  const playerRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const maxScoreRef = useRef<HTMLSelectElement | null>(null);
+  const id = Math.floor(Math.random() * 100000);
 
-  const player1Ref = useRef<HTMLInputElement>(null);
-  const player2Ref = useRef<HTMLInputElement>(null);
-  const player3Ref = useRef<HTMLInputElement>(null);
-  const player4Ref = useRef<HTMLInputElement>(null);
-
-  const playerNumHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const playerQuantityHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const selectedValue: number = parseInt(event.target.value, 10);
     DartCtx.setPlayerQuantity(selectedValue);
   };
 
-  const maxScoreRef = useRef<HTMLSelectElement | null>(null);
-
-  const playerInp =
-    DartCtx.playerQuantity === 1 ? (
-      <div>
-        <PlayerForm playerN="Player 1" playerId="p1" ref={player1Ref} />
-      </div>
-    ) : DartCtx.playerQuantity === 2 ? (
-      <div>
-        <PlayerForm playerN="Player 1" playerId="p1" ref={player1Ref} />
-        <PlayerForm playerN="Player 2" playerId="p2" ref={player2Ref} />
-      </div>
-    ) : DartCtx.playerQuantity === 3 ? (
-      <div>
-        <PlayerForm playerN="Player 1" playerId="p1" ref={player1Ref} />
-        <PlayerForm playerN="Player 2" playerId="p2" ref={player2Ref} />
-        <PlayerForm playerN="Player 3" playerId="p3" ref={player3Ref} />
-      </div>
-    ) : DartCtx.playerQuantity === 4 ? (
-      <div>
-        <PlayerForm playerN="Player 1" playerId="p1" ref={player1Ref} />
-        <PlayerForm playerN="Player 2" playerId="p2" ref={player2Ref} />
-        <PlayerForm playerN="Player 3" playerId="p3" ref={player3Ref} />
-        <PlayerForm playerN="Player 4" playerId="p4" ref={player4Ref} />
-      </div>
-    ) : (
-      ""
-    );
+  const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => (
+    <PlayerForm
+      key={i}
+      playerN={`Player ${i + 1}`}
+      playerId={`p${i}`}
+      ref={(el) => (playerRefs.current[i] = el)}
+    />
+  ));
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,54 +33,16 @@ const Form = () => {
 
     DartCtx.setMaxScore(enteredMaxScore);
 
-    const playerNameObj =
-      DartCtx.playerQuantity === 1
-        ? {
-            player1: player1Ref.current?.value || null,
-          }
-        : DartCtx.playerQuantity === 2
-        ? {
-            player1: player1Ref.current?.value || null,
-            player2: player2Ref.current?.value || null,
-          }
-        : DartCtx.playerQuantity === 3
-        ? {
-            player1: player1Ref.current?.value || null,
-            player2: player2Ref.current?.value || null,
-            player3: player3Ref.current?.value || null,
-          }
-        : DartCtx.playerQuantity === 4
-        ? {
-            player1: player1Ref.current?.value || null,
-            player2: player2Ref.current?.value || null,
-            player3: player3Ref.current?.value || null,
-            player4: player4Ref.current?.value || null,
-          }
-        : "";
+    const inputValues = playerRefs.current.map((inputRef) => inputRef?.value);
 
-    Object.values(playerNameObj).map((name) => {
-      DartCtx.setPlayers((prevState) => [
-        ...prevState,
-        {
-          id: Math.random(),
-          name: name || "",
-          totalPoints: enteredMaxScore,
-        },
-      ]);
-    });
+    const newObj = inputValues.map((val) => ({
+      id: id,
+      name: val as string | null,
+      totalPoints: enteredMaxScore,
+    }));
 
-    DartCtx.setPlayerNames((prevState) => ({ ...prevState, ...playerNameObj }));
-
-    // if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
-    DartCtx.setIsSubmitted(true);
-    // } else if (DartCtx.playerQuantity === 0) {
-    //   errorObj.playerNum = "You should choose 1 or more players to play";
-    // } else if (enteredMaxScore === 0) {
-    //   errorObj.score = "You should choose a valid score";
-    // }
+    DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
   };
-
-  // console.log(errorObj);
 
   return (
     <form
@@ -130,11 +63,8 @@ const Form = () => {
               id="playerNum"
               defaultValue="0"
               options={[1, 2, 3, 4]}
-              onChange={playerNumHandler}
+              onChange={playerQuantityHandler}
             />
-            {errorObj.playerNum && (
-              <p className="text-red-700">{errorObj.playerNum}</p>
-            )}
           </div>
           <SelectComp
             title="Choose a score"
@@ -143,9 +73,8 @@ const Form = () => {
             options={[150, 200, 250, 300]}
             ref={maxScoreRef}
           />
-          {errorObj.score && <p className="text-red-700">{errorObj.score}</p>}
         </div>
-        <div>{playerInp}</div>
+        <div>{inputFields}</div>
         <button className="mt-5 text-white text-md bg-dartGreen1 hover:bg-dartGreen focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center w-4/12">
           Submit
         </button>
