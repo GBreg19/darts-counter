@@ -1,80 +1,80 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import { DartContext } from "../store/dart-context";
-import Input from "../layout/Input";
+// import { Fragment, useContext, useEffect, useState } from "react";
+// import { DartContext } from "../store/dart-context";
+// import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
 
 const Table = () => {
-  const DartCtx = useContext(DartContext);
-  const [isInputActive, setIsInputActive] = useState(false);
+  // const DartCtx = useContext(DartContext);
+  // const [isInputActive, setIsInputActive] = useState(false);
 
-  type InpTypes = {
-    [key: string]: string | number;
-  };
-  const playerInputValues: InpTypes = {};
+  // type InpTypes = {
+  //   [key: string]: string | number;
+  // };
+  // const playerInputValues: InpTypes = {};
 
-  for (let i = 1; i < DartCtx.playerQuantity + 1; i++) {
-    playerInputValues[`player${i}`] = "";
-  }
+  // for (let i = 1; i < DartCtx.playerQuantity + 1; i++) {
+  //   playerInputValues[`player${i}`] = "";
+  // }
 
-  const [pointsInputValue, setPointsInputValue] =
-    useState<InpTypes>(playerInputValues);
+  // const [pointsInputValue, setPointsInputValue] =
+  //   useState<InpTypes>(playerInputValues);
 
-  const playerInputHandler = (value: number, index: number) => {
-    const updatedPlayerInputs = { ...pointsInputValue };
+  // const playerInputHandler = (value: number, index: number) => {
+  //   const updatedPlayerInputs = { ...pointsInputValue };
 
-    Object.entries(updatedPlayerInputs).map(([key]) => {
-      if (`player${index + 1}` === key) {
-        updatedPlayerInputs[key] = value;
-      }
-    });
-    setPointsInputValue(updatedPlayerInputs);
+  //   Object.entries(updatedPlayerInputs).map(([key]) => {
+  //     if (`player${index + 1}` === key) {
+  //       updatedPlayerInputs[key] = value;
+  //     }
+  //   });
+  //   setPointsInputValue(updatedPlayerInputs);
 
-    const updatedPlayers = [...DartCtx.players];
+  //   const updatedPlayers = [...DartCtx.players];
 
-    updatedPlayers[index] = {
-      ...updatedPlayers[index],
-      totalPoints: updatedPlayers[index].totalPoints - value,
-    };
+  //   updatedPlayers[index] = {
+  //     ...updatedPlayers[index],
+  //     totalPoints: updatedPlayers[index].totalPoints - value,
+  //   };
 
-    DartCtx.setInputValues(updatedPlayers);
-  };
+  //   DartCtx.setInputValues(updatedPlayers);
+  // };
 
-  const pointsCalcFunc = () => {
-    if (isInputActive) {
-      return;
-    } else {
-      DartCtx.setPlayers((prevState) => {
-        const updatedPlayers = prevState.map((player) => {
-          const matchingInput = DartCtx.inputValues.find(
-            (inputPlayer) => inputPlayer.name === player.name
-          );
-          if (matchingInput) {
-            return {
-              ...player,
-              totalPoints: matchingInput.totalPoints,
-            };
-          }
-          return player;
-        });
+  // const pointsCalcFunc = () => {
+  //   if (isInputActive) {
+  //     return;
+  //   } else {
+  //     DartCtx.setPlayers((prevState) => {
+  //       const updatedPlayers = prevState.map((player) => {
+  //         const matchingInput = DartCtx.inputValues.find(
+  //           (inputPlayer) => inputPlayer.name === player.name
+  //         );
+  //         if (matchingInput) {
+  //           return {
+  //             ...player,
+  //             totalPoints: matchingInput.totalPoints,
+  //           };
+  //         }
+  //         return player;
+  //       });
 
-        setPointsInputValue((prevState) => {
-          const updatedInpValues = { ...prevState };
+  //       // setPointsInputValue((prevState) => {
+  //       //   const updatedInpValues = { ...prevState };
 
-          Object.keys(updatedInpValues).forEach((key) => {
-            updatedInpValues[key] = "";
-          });
+  //       //   Object.keys(updatedInpValues).forEach((key) => {
+  //       //     updatedInpValues[key] = "";
+  //       //   });
 
-          return updatedInpValues;
-        });
+  //       //   return updatedInpValues;
+  //       // });
         
-        return updatedPlayers;
-      });
-    }
-  };
+  //       return updatedPlayers;
+  //     });
+  //   }
+  // };
 
-  useEffect(() => {
-    pointsCalcFunc();
-  }, [isInputActive]);
+  // useEffect(() => {
+  //   pointsCalcFunc();
+  // }, [isInputActive]);
 
   return (
     <div className=" m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
@@ -88,7 +88,7 @@ const Table = () => {
         </button>
       </div>
       <div className={`w-full mt-5 grid grid-cols-4 justify-between px-5`}>
-        {Array.from({ length: DartCtx.players.length }, (_, index) => (
+        {/* {Array.from({ length: DartCtx.players.length }, (_, index) => (
           <div key={index} className="w-full">
             <div>
               {DartCtx.players.map((player, i) =>
@@ -98,19 +98,19 @@ const Table = () => {
                       {player.name} ({player.totalPoints})
                     </h1>
                     {
-                      <Input
-                        value={pointsInputValue}
-                        index={index}
-                        setFunc={setIsInputActive}
-                        onChange={(value) => playerInputHandler(value, index)}
-                      />
+                      // <Input
+                      //   value={pointsInputValue}
+                      //   index={index}
+                      //   setFunc={setIsInputActive}
+                      //   onChange={(value) => playerInputHandler(value, index)}
+                      // />
                     }
                   </Fragment>
                 ) : null
               )}
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
