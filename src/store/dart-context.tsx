@@ -1,16 +1,13 @@
 import { ReactNode, createContext, useState } from "react";
 
-type PlayerNamesObj = {
-  player1: string | null;
-  player2: string | null;
-  player3: string | null;
-  player4: string | null;
-};
-
 type PlayerObj = {
-  id: number | null,
+  id: number | null;
   name: string | null;
   totalPoints: number | null;
+};
+
+export type PlayerScores = {
+  [key: string]: string;
 };
 
 type DartContextType = {
@@ -18,14 +15,12 @@ type DartContextType = {
   setPlayerQuantity: React.Dispatch<React.SetStateAction<number>>;
   maxScore: number;
   setMaxScore: React.Dispatch<React.SetStateAction<number>>;
-  playerNames: PlayerNamesObj;
-  setPlayerNames: React.Dispatch<React.SetStateAction<PlayerNamesObj>>;
   isSubmitted: boolean;
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
   players: PlayerObj[];
   setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
-  inputValues: PlayerObj[];
-  setInputValues: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
+  inputValues: PlayerScores;
+  setInputValues: React.Dispatch<React.SetStateAction<PlayerScores>>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -33,18 +28,11 @@ export const DartContext = createContext<DartContextType>({
   setPlayerQuantity: () => {},
   maxScore: 0,
   setMaxScore: () => {},
-  playerNames: {
-    player1: null,
-    player2: null,
-    player3: null,
-    player4: null,
-  },
-  setPlayerNames: () => {},
   isSubmitted: false,
   setIsSubmitted: () => {},
   players: [],
   setPlayers: () => {},
-  inputValues: [],
+  inputValues: {},
   setInputValues: () => {},
 });
 
@@ -56,24 +44,14 @@ const DartContextProvider = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [playerQuantity, setPlayerQuantity] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
-  const [inputValues, setInputValues] = useState<PlayerObj[]>([]);
-
   const [players, setPlayers] = useState<PlayerObj[]>([]);
-
-  const [playerNames, setPlayerNames] = useState<PlayerNamesObj>({
-    player1: null,
-    player2: null,
-    player3: null,
-    player4: null,
-  });
+  const [inputValues, setInputValues] = useState<PlayerScores>({});
 
   const contextValue: DartContextType = {
     playerQuantity: playerQuantity,
     setPlayerQuantity,
     maxScore: maxScore,
     setMaxScore,
-    playerNames,
-    setPlayerNames,
     isSubmitted,
     setIsSubmitted,
     players,

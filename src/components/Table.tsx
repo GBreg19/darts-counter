@@ -1,11 +1,11 @@
-// import { Fragment, useContext, useEffect, useState } from "react";
-// import { DartContext } from "../store/dart-context";
-// import Input from "../layout/Input";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { DartContext, PlayerScores } from "../store/dart-context";
+import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
 
 const Table = () => {
-  // const DartCtx = useContext(DartContext);
-  // const [isInputActive, setIsInputActive] = useState(false);
+  const DartCtx = useContext(DartContext);
+  const [isInputActive, setIsInputActive] = useState(false);
 
   // type InpTypes = {
   //   [key: string]: string | number;
@@ -18,23 +18,6 @@ const Table = () => {
 
   // const [pointsInputValue, setPointsInputValue] =
   //   useState<InpTypes>(playerInputValues);
-
-  // const playerInputHandler = (value: number, index: number) => {
-  //   const updatedPlayerInputs = { ...pointsInputValue };
-
-  //   Object.entries(updatedPlayerInputs).map(([key]) => {
-  //     if (`player${index + 1}` === key) {
-  //       updatedPlayerInputs[key] = value;
-  //     }
-  //   });
-  //   setPointsInputValue(updatedPlayerInputs);
-
-  //   const updatedPlayers = [...DartCtx.players];
-
-  //   updatedPlayers[index] = {
-  //     ...updatedPlayers[index],
-  //     totalPoints: updatedPlayers[index].totalPoints - value,
-  //   };
 
   //   DartCtx.setInputValues(updatedPlayers);
   // };
@@ -66,7 +49,7 @@ const Table = () => {
 
   //       //   return updatedInpValues;
   //       // });
-        
+
   //       return updatedPlayers;
   //     });
   //   }
@@ -75,6 +58,43 @@ const Table = () => {
   // useEffect(() => {
   //   pointsCalcFunc();
   // }, [isInputActive]);
+
+  const playerInputHandler = (value: number, id: string) => {
+    // console.log(`${id}: ${value}`)
+    // console.log(value);
+    // const updatedPlayerInputs = { ...pointsInputValue };
+    // Object.entries(updatedPlayerInputs).map(([key]) => {
+    //   if (`player${index + 1}` === key) {
+    //     updatedPlayerInputs[key] = value;
+    //   }
+    // });
+    // setPointsInputValue(updatedPlayerInputs);
+    // const updatedPlayers = [...DartCtx.players];
+    // updatedPlayers[index] = {
+    //   ...updatedPlayers[index],
+    //   totalPoints: updatedPlayers[index].totalPoints - value,
+  };
+
+  const playerTable = DartCtx.players.map((player, i) => {
+    const scoreValues: PlayerScores = {
+      [`Player${i + 1}`]: "",
+    };
+
+    // DartCtx.setInputValues((prevState) => {...prevState, ...scoreValues})
+
+    return (
+      <div key={player.id}>
+        <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center">
+          {player.name} ({player.totalPoints})
+        </h1>
+        <Input
+          id={player.id as number}
+          onChange={playerInputHandler}
+          setIsFocused={setIsInputActive}
+        />
+      </div>
+    );
+  });
 
   return (
     <div className=" m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
@@ -88,29 +108,7 @@ const Table = () => {
         </button>
       </div>
       <div className={`w-full mt-5 grid grid-cols-4 justify-between px-5`}>
-        {/* {Array.from({ length: DartCtx.players.length }, (_, index) => (
-          <div key={index} className="w-full">
-            <div>
-              {DartCtx.players.map((player, i) =>
-                index === i ? (
-                  <Fragment key={i}>
-                    <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center">
-                      {player.name} ({player.totalPoints})
-                    </h1>
-                    {
-                      // <Input
-                      //   value={pointsInputValue}
-                      //   index={index}
-                      //   setFunc={setIsInputActive}
-                      //   onChange={(value) => playerInputHandler(value, index)}
-                      // />
-                    }
-                  </Fragment>
-                ) : null
-              )}
-            </div>
-          </div>
-        ))} */}
+        {playerTable}
       </div>
     </div>
   );

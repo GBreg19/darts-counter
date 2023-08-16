@@ -8,7 +8,6 @@ const Form = () => {
   const DartCtx = useContext(DartContext);
   const playerRefs = useRef<(HTMLInputElement | null)[]>([]);
   const maxScoreRef = useRef<HTMLSelectElement | null>(null);
-  const id = Math.floor(Math.random() * 100000);
 
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -35,13 +34,18 @@ const Form = () => {
 
     const inputValues = playerRefs.current.map((inputRef) => inputRef?.value);
 
-    const newObj = inputValues.map((val) => ({
-      id: id,
-      name: val as string | null,
-      totalPoints: enteredMaxScore,
-    }));
+    const newObj = inputValues.map((val) => {
+      const id = Math.floor(Math.random() * 100000);
+      const obj = {
+        id: id,
+        name: val as string | null,
+        totalPoints: enteredMaxScore,
+      };
+      return obj;
+    });
 
     DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
+    DartCtx.setIsSubmitted(true);
   };
 
   return (
