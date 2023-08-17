@@ -17,7 +17,9 @@ const Input = ({ id, onChange, setIsFocused }: InpProps) => {
     const convertedValue = parseInt(inpValue);
     const convertedId = inpId.toString()
     onChange(convertedValue, convertedId);
-    console.log(event.target)
+    if(id === parseInt(inpId)){
+      console.log(`player: ${inpValue}`)
+    }
   };
 
   const onFocus = () => setIsFocused(true);

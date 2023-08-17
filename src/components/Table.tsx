@@ -76,9 +76,12 @@ const Table = () => {
   };
 
   const playerTable = DartCtx.players.map((player, i) => {
-    const scoreValues: PlayerScores = {
-      [`Player${i + 1}`]: "",
-    };
+
+    // const scoreValues: PlayerScores = {
+    //   [`Player${i + 1}`]: "",
+    // };
+
+    // console.log(scoreValues)
 
     // DartCtx.setInputValues((prevState) => {...prevState, ...scoreValues})
 
