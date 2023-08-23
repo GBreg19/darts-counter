@@ -1,13 +1,14 @@
 import { ReactNode, createContext, useState } from "react";
 
-type PlayerObj = {
+export type PlayerObj = {
   id: number | null;
   name: string | null;
-  totalPoints: number | null;
+  totalPoints: number;
+  currentPoint: number | null
 };
 
 export type PlayerScores = {
-  [key: string]: string;
+  [key: string]: string | null;
 };
 
 type DartContextType = {

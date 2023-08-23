@@ -1,4 +1,4 @@
-import { RefObject, useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import PlayerForm from "../layout/PlayerForm";
 import { DartContext } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
@@ -40,6 +40,7 @@ const Form = () => {
         id: id,
         name: val as string | null,
         totalPoints: enteredMaxScore,
+        currentPoint: null,
       };
       return obj;
     });
