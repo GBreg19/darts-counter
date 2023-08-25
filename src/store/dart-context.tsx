@@ -8,7 +8,7 @@ export type PlayerObj = {
 };
 
 export type PlayerScores = {
-  [key: string]: string | null;
+  [key: string]: number | null;
 };
 
 type DartContextType = {

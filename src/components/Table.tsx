@@ -1,5 +1,5 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import { DartContext, PlayerObj, PlayerScores } from "../store/dart-context";
+import { useContext, useEffect, useState } from "react";
+import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
 
@@ -7,35 +7,48 @@ const Table = () => {
   const DartCtx = useContext(DartContext);
   const [isInputActive, setIsInputActive] = useState(false);
 
-
-  const playerInputHandler = (value: number, id: string, name: string) => {
-    const updatedPlayer = DartCtx.players.map((player) => {
-      if (player.id?.toString() === id) {
-        const newTotal = player.totalPoints - value;
-        return {
-          ...player,
-          totalPoints: newTotal,
-          currentPoint: value,
-        };
-      }
-      return player;
-    });
-    DartCtx.setPlayers(updatedPlayer);
+  const playerInputHandler = (name: string, value: number) => {
+    DartCtx.setInputValues((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // useEffect(() => {
-  // }, [isInputActive]);
+  useEffect(() => {
+    // ფრევსთეითი უნდა დავმაპო შიგნით ინფუთველოის დავმაპო და სახელებით შევადარო და იმის მიხედვით გამოვაკლო ტოტალს ქარენთი
+    if (!isInputActive) {
+      // DartCtx.setPlayers((prevState) => {
+      //   return prevState.map((player) => console.log(player));
+      // });
+    }
+  }, []);
 
-  const playerTable = DartCtx.players.map((player, i) => {
+  useEffect(() => {
+    DartCtx.players.map((player) => {
+      const name = player.name;
+
+      if (name !== null) {
+        const newObj = {
+          [name]: null,
+        };
+        DartCtx.setInputValues((prevState) => ({ ...prevState, ...newObj }));
+      }
+    });
+  }, [DartCtx.players]);
+
+  const playerTable = DartCtx.players.map((player) => {
     return (
-      <div key={player.id}>
-        <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center">
+      <div key={player.id} className="inline-flex">
+        <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-56">
           {player.name} ({player.totalPoints})
         </h1>
+      </div>
+    );
+  });
+
+  const playerPointsInputs = Object.keys(DartCtx.inputValues).map((key) => {
+    return (
+      <div key={key} className="inline-flex">
         <Input
-          id={player.id as number}
-          name={player.name}
-          value={player.currentPoint}
+          name={key}
+          value={DartCtx.inputValues[key]}
           onChange={playerInputHandler}
           setIsFocused={setIsInputActive}
         />
@@ -54,8 +67,9 @@ const Table = () => {
           <LuRefreshCcw />
         </button>
       </div>
-      <div className={`w-full mt-5 grid grid-cols-4 justify-between px-5`}>
+      <div className={`w-full mt-5 justify-between px-5`}>
         {playerTable}
+        {playerPointsInputs}
       </div>
     </div>
   );
