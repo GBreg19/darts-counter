@@ -40,7 +40,6 @@ const Form = () => {
         id: id,
         name: val as string | null,
         totalPoints: enteredMaxScore,
-        currentPoint: null,
       };
       return obj;
     });

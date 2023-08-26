@@ -4,10 +4,9 @@ export type PlayerObj = {
   id: number | null;
   name: string | null;
   totalPoints: number;
-  currentPoint: number | null
 };
 
-export type PlayerScores = {
+type PlayerScores = {
   [key: string]: number | null;
 };
 

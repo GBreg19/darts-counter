@@ -9,15 +9,15 @@ const Table = () => {
 
   const playerInputHandler = (name: string, value: number) => {
     DartCtx.setInputValues((prevState) => ({ ...prevState, [name]: value }));
+    scoreChangingFunc(name);
+  };
+
+  const scoreChangingFunc = (name) => {
+    console.log(name);
   };
 
   useEffect(() => {
-    // ფრევსთეითი უნდა დავმაპო შიგნით ინფუთველოის დავმაპო და სახელებით შევადარო და იმის მიხედვით გამოვაკლო ტოტალს ქარენთი
-    if (!isInputActive) {
-      // DartCtx.setPlayers((prevState) => {
-      //   return prevState.map((player) => console.log(player));
-      // });
-    }
+    scoreChangingFunc();
   }, []);
 
   useEffect(() => {
@@ -35,24 +35,24 @@ const Table = () => {
 
   const playerTable = DartCtx.players.map((player) => {
     return (
-      <div key={player.id} className="inline-flex">
-        <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-56">
-          {player.name} ({player.totalPoints})
-        </h1>
-      </div>
+      <h1
+        key={player.id}
+        className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-full"
+      >
+        {player.name} ({player.totalPoints})
+      </h1>
     );
   });
 
   const playerPointsInputs = Object.keys(DartCtx.inputValues).map((key) => {
     return (
-      <div key={key} className="inline-flex">
-        <Input
-          name={key}
-          value={DartCtx.inputValues[key]}
-          onChange={playerInputHandler}
-          setIsFocused={setIsInputActive}
-        />
-      </div>
+      <Input
+        key={key}
+        name={key}
+        value={DartCtx.inputValues[key]}
+        onChange={playerInputHandler}
+        setIsFocused={setIsInputActive}
+      />
     );
   });
 
@@ -68,8 +68,8 @@ const Table = () => {
         </button>
       </div>
       <div className={`w-full mt-5 justify-between px-5`}>
-        {playerTable}
-        {playerPointsInputs}
+        <div className="flex">{playerTable}</div>
+        <div className="flex">{playerPointsInputs}</div>
       </div>
     </div>
   );
