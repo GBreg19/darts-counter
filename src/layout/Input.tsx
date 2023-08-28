@@ -5,14 +5,19 @@ type InpProps = {
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
+const Input = ({
+  onChange,
+  setIsFocused,
+  name,
+  value,
+}: InpProps) => {
+
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inpValue = event.target.value;
     const name = event.target.name;
     const convertedValue = parseInt(inpValue);
     onChange(name, convertedValue);
   };
-
 
   return (
     <input
