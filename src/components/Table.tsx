@@ -11,19 +11,7 @@ const Table = () => {
     DartCtx.setInputValues((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  useEffect(() => {
-    let objKey: string;
-    let val: number | null;
-    for (const [key, value] of Object.entries(DartCtx.inputValues)) {
-      objKey = key;
-      val = value;
-      console.log(objKey, val)
-    }
-    
-
-    const updPl = DartCtx.players.find((player) => player.name === objKey);
-    console.log(updPl);
-  }, [isInputActive]);
+  useEffect(() => {}, [isInputActive]);
 
   useEffect(() => {
     DartCtx.players.map((player) => {
