@@ -8,7 +8,7 @@ const Table = () => {
   const [isInputActive, setIsInputActive] = useState(false);
 
   const playerInputHandler = (name: string, value: number) => {
-    DartCtx.setInputValues((prevState) => ({ ...prevState, [name]: value }));
+    DartCtx.setInputValues((prevState) => ({ ...prevState, [name]: value }))
   };
 
   useEffect(() => {}, [isInputActive]);
@@ -25,6 +25,15 @@ const Table = () => {
       }
     });
   }, [DartCtx.players]);
+
+  useEffect(() => {
+    const totals = DartCtx.players.map((player) => player.totalPoints)
+    for(const score of totals) {
+      if(score === 0) {
+        console.log('WINNER!')
+      }
+    }
+  }, [DartCtx.players])
 
   const playerTable = DartCtx.players.map((player) => {
     return (

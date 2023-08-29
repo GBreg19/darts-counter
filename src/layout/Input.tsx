@@ -22,7 +22,10 @@ const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
     const { name, value } = event.target;
     const updatedPlayer = [...DartCtx.players];
     const updatingPlayer = updatedPlayer.find((player) => player.name === name);
-    updatingPlayer!.totalPoints = updatingPlayer!.totalPoints - parseInt(value);
+    if (updatingPlayer!.totalPoints !== 0) {
+      updatingPlayer!.totalPoints =
+        updatingPlayer!.totalPoints - parseInt(value);
+    }
     DartCtx.setPlayers(updatedPlayer);
   };
 
