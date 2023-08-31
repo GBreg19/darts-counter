@@ -7,7 +7,7 @@ import { GiDart } from "react-icons/gi";
 const Form = () => {
   const DartCtx = useContext(DartContext);
   const playerRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const maxScoreRef = useRef<HTMLSelectElement | null>(null);
+  // const maxScoreRef = useRef<HTMLSelectElement | null>(null);
 
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -28,7 +28,7 @@ const Form = () => {
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const enteredMaxScore: number = parseInt(maxScoreRef.current!.value);
+    const enteredMaxScore: number = parseInt(DartCtx.maxScoreRef.current!.value);
 
     DartCtx.setMaxScore(enteredMaxScore);
 
@@ -75,7 +75,7 @@ const Form = () => {
             id="score"
             defaultValue="0"
             options={[150, 200, 250, 300]}
-            ref={maxScoreRef}
+            ref={DartCtx.maxScoreRef}
           />
         </div>
         <div>{inputFields}</div>

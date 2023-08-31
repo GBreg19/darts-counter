@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import React, { ReactNode, createContext, useRef, useState } from "react";
 
 export type PlayerObj = {
   id: number | null;
@@ -7,7 +7,7 @@ export type PlayerObj = {
 };
 
 type PlayerScores = {
-  [key: string]: number | null;
+  [key: string]: string;
 };
 
 type DartContextType = {
@@ -21,6 +21,7 @@ type DartContextType = {
   setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
   inputValues: PlayerScores;
   setInputValues: React.Dispatch<React.SetStateAction<PlayerScores>>;
+  maxScoreRef: React.RefObject<HTMLSelectElement | null>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -34,6 +35,7 @@ export const DartContext = createContext<DartContextType>({
   setPlayers: () => {},
   inputValues: {},
   setInputValues: () => {},
+  maxScoreRef: React.createRef<HTMLSelectElement | null>(),
 });
 
 type Props = {
@@ -47,6 +49,8 @@ const DartContextProvider = (props: Props) => {
   const [players, setPlayers] = useState<PlayerObj[]>([]);
   const [inputValues, setInputValues] = useState<PlayerScores>({});
 
+  const maxScoreRef = useRef<HTMLSelectElement | null>(null);
+
   const contextValue: DartContextType = {
     playerQuantity: playerQuantity,
     setPlayerQuantity,
@@ -58,6 +62,7 @@ const DartContextProvider = (props: Props) => {
     setPlayers,
     inputValues,
     setInputValues,
+    maxScoreRef,
   };
 
   return (

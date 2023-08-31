@@ -3,8 +3,8 @@ import { DartContext } from "../store/dart-context";
 
 type InpProps = {
   name: string | null;
-  value: number | null;
-  onChange: (name: string, val: number) => void;
+  value: string | null;
+  onChange: (name: string, val: string) => void;
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -12,19 +12,23 @@ const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
   const DartCtx = useContext(DartContext);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inpValue = event.target.value;
-    const name = event.target.name;
-    const convertedValue = parseInt(inpValue);
-    onChange(name, convertedValue);
+    const { value, name } = event.target;
+    onChange(name, value);
   };
 
   const onBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    const convertedValue = parseInt(value);
+
     const updatedPlayer = [...DartCtx.players];
     const updatingPlayer = updatedPlayer.find((player) => player.name === name);
-    if (updatingPlayer!.totalPoints !== 0) {
+
+    if (updatingPlayer!.totalPoints - convertedValue <= 0) {
+      console.log(Math.abs(updatingPlayer!.totalPoints - convertedValue));
+    }
+    if (value && updatingPlayer!.totalPoints > 0 && updatingPlayer!.totalPoints - convertedValue >= 0) {
       updatingPlayer!.totalPoints =
-        updatingPlayer!.totalPoints - parseInt(value);
+        updatingPlayer!.totalPoints - convertedValue;
     }
     DartCtx.setPlayers(updatedPlayer);
   };
