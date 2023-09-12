@@ -15,7 +15,7 @@ const Table = () => {
     DartCtx.players.map((player) => {
       const name = player.name;
 
-    console.log(player.totalPoints)
+      // console.log(player.totalPoints)
 
       if (name !== null) {
         const newObj = {
@@ -30,7 +30,7 @@ const Table = () => {
     const totals = DartCtx.players.map((player) => player.totalPoints);
     for (const score of totals) {
       if (score === 0) {
-        console.log("WINNER!");
+        DartCtx.setWinner(true);
       }
     }
   }, [DartCtx.players]);
