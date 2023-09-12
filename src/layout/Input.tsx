@@ -23,8 +23,12 @@ const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
     const updatedPlayer = [...DartCtx.players];
     const updatingPlayer = updatedPlayer.find((player) => player.name === name);
 
-    if (updatingPlayer!.totalPoints - convertedValue <= 0) {
-      console.log(Math.abs(updatingPlayer!.totalPoints - convertedValue));
+    if (updatingPlayer!.totalPoints - convertedValue < 0) {
+      const surplus = Math.abs(updatingPlayer!.totalPoints - convertedValue)
+      const newTotal = DartCtx.maxScore - surplus
+      updatingPlayer!.totalPoints = newTotal
+      // console.log(updatingPlayer!.totalPoints)
+      // console.log(surplus);
     }
     if (value && updatingPlayer!.totalPoints > 0 && updatingPlayer!.totalPoints - convertedValue >= 0) {
       updatingPlayer!.totalPoints =

@@ -21,7 +21,7 @@ type DartContextType = {
   setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
   inputValues: PlayerScores;
   setInputValues: React.Dispatch<React.SetStateAction<PlayerScores>>;
-  maxScoreRef: React.RefObject<HTMLSelectElement | null>;
+  maxScoreRef: React.RefObject<HTMLSelectElement>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -35,7 +35,7 @@ export const DartContext = createContext<DartContextType>({
   setPlayers: () => {},
   inputValues: {},
   setInputValues: () => {},
-  maxScoreRef: React.createRef<HTMLSelectElement | null>(),
+  maxScoreRef: React.createRef<HTMLSelectElement>(),
 });
 
 type Props = {
@@ -49,7 +49,7 @@ const DartContextProvider = (props: Props) => {
   const [players, setPlayers] = useState<PlayerObj[]>([]);
   const [inputValues, setInputValues] = useState<PlayerScores>({});
 
-  const maxScoreRef = useRef<HTMLSelectElement | null>(null);
+  const maxScoreRef = useRef<HTMLSelectElement>(null);
 
   const contextValue: DartContextType = {
     playerQuantity: playerQuantity,
