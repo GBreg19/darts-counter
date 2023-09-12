@@ -27,7 +27,9 @@ const Form = () => {
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const enteredMaxScore: number = parseInt(DartCtx.maxScoreRef.current!.value);
+    const enteredMaxScore: number = parseInt(
+      DartCtx.maxScoreRef.current!.value
+    );
 
     DartCtx.setMaxScore(enteredMaxScore);
 
@@ -44,7 +46,9 @@ const Form = () => {
     });
 
     DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
-    DartCtx.setIsSubmitted(true);
+    if (enteredMaxScore !== 0 && DartCtx.playerQuantity !== 0) {
+      DartCtx.setIsSubmitted(true);
+    }
   };
 
   return (

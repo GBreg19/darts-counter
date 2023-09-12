@@ -62,12 +62,12 @@ const Table = () => {
     <div className=" m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
       <div className="relative">
         <h1 className="text-4xl text-center">Let's Play!</h1>
-        <button
+        {/* <button
           className="absolute top-1/2 -translate-y-1/2 right-10 text-xl"
           title="Refresh"
         >
           <LuRefreshCcw />
-        </button>
+        </button> */}
       </div>
       <div className={`w-full mt-5 justify-between px-5`}>
         <div className="flex">{playerTable}</div>
