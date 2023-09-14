@@ -6,6 +6,7 @@ import { DartContext } from "./store/dart-context";
 function App() {
   const DartCtx = useContext(DartContext);
   const winner = DartCtx.players.find((player) => player.totalPoints === 0);
+
   return (
     <Fragment>
       {!DartCtx.winner && (
@@ -16,7 +17,10 @@ function App() {
       )}
       {DartCtx.winner && (
         <div className="text-5xl font-bold flex justify-center mt-96 text-red-500">
-          AAAAAAAAAAND THE WINNER IS - {winner?.name}!
+          <button onClick={() => DartCtx.setIsSubmitted(false)}>
+            Start again
+          </button>
+          <h1>AAAAAAAAAAND THE WINNER IS - {winner?.name}!</h1>
         </div>
       )}
     </Fragment>

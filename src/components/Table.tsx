@@ -31,6 +31,8 @@ const Table = () => {
     for (const score of totals) {
       if (score === 0) {
         DartCtx.setWinner(true);
+        DartCtx.setPlayers([]);
+        DartCtx.setMaxScore(0);
       }
     }
   }, [DartCtx.players]);
