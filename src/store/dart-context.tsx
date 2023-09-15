@@ -10,6 +10,11 @@ type PlayerScores = {
   [key: string]: string;
 };
 
+type ErrorObj = {
+  players: string;
+  score: string;
+};
+
 type DartContextType = {
   playerQuantity: number;
   setPlayerQuantity: React.Dispatch<React.SetStateAction<number>>;
@@ -24,6 +29,8 @@ type DartContextType = {
   maxScoreRef: React.RefObject<HTMLSelectElement>;
   winner: boolean;
   setWinner: React.Dispatch<React.SetStateAction<boolean>>;
+  errors: ErrorObj;
+  setErrors: React.Dispatch<React.SetStateAction<ErrorObj>>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -40,6 +47,11 @@ export const DartContext = createContext<DartContextType>({
   maxScoreRef: React.createRef<HTMLSelectElement>(),
   winner: false,
   setWinner: () => {},
+  errors: {
+    players: "",
+    score: "",
+  },
+  setErrors: () => {},
 });
 
 type Props = {
@@ -53,6 +65,10 @@ const DartContextProvider = (props: Props) => {
   const [players, setPlayers] = useState<PlayerObj[]>([]);
   const [inputValues, setInputValues] = useState<PlayerScores>({});
   const [winner, setWinner] = useState(false);
+  const [errors, setErrors] = useState<ErrorObj>({
+    players: "",
+    score: "",
+  });
 
   const maxScoreRef = useRef<HTMLSelectElement>(null);
 
@@ -70,6 +86,8 @@ const DartContextProvider = (props: Props) => {
     maxScoreRef,
     winner,
     setWinner,
+    errors,
+    setErrors,
   };
 
   return (
