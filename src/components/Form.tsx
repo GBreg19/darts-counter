@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import PlayerForm from "../layout/PlayerForm";
 import { DartContext } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
@@ -13,10 +13,9 @@ const Form = () => {
   ) => {
     const selectedValue: number = parseInt(event.target.value, 10);
     DartCtx.setPlayerQuantity(selectedValue);
-    console.log(event.target.value);
+    console.log(DartCtx.inputValues)
+    // console.log(DartCtx.players)
   };
-  console.log(DartCtx.playerQuantity);
-  console.log(playerRefs)
 
   const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => (
     <PlayerForm
@@ -29,17 +28,17 @@ const Form = () => {
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const errorObj = {
-      players: "",
-      score: "",
-    };
-
+    
     const enteredMaxScore: number = parseInt(
       DartCtx.maxScoreRef.current!.value
     );
 
     DartCtx.setMaxScore(enteredMaxScore);
+
+    const errorObj = {
+      players: "",
+      score: "",
+    };
 
     const inputValues = playerRefs.current.map((inputRef) => inputRef?.value);
 
