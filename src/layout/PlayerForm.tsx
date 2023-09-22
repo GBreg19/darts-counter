@@ -9,7 +9,9 @@ const PlayerForm = forwardRef<HTMLInputElement, PlayerFormProps>(
   ({ playerN, playerId }: PlayerFormProps, ref: Ref<HTMLInputElement>) => {
     return (
       <div className="flex gap-5 my-3 items-center">
-        <label htmlFor={playerId} className="text-lg basis-2/12">{playerN}</label>
+        <label htmlFor={playerId} className="text-lg basis-2/12">
+          {playerN}
+        </label>
         <input
           type="text"
           name={playerId}

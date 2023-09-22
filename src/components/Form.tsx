@@ -5,30 +5,32 @@ import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
 const Form = () => {
-  const DartCtx = useContext(DartContext);
-  const playerRefs = useRef<(HTMLInputElement | null)[]>([]);
-
+  const DartCtx = useContext(DartContext);  
+  const playerRefs = useRef([])
+  
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedValue: number = parseInt(event.target.value, 10);
-    DartCtx.setPlayerQuantity(selectedValue);
-    console.log(DartCtx.inputValues)
-    // console.log(DartCtx.players)
-  };
 
-  const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => (
-    <PlayerForm
-      key={i}
-      playerN={`Player ${i + 1}`}
-      playerId={`p${i}`}
-      ref={(el) => (playerRefs.current[i] = el)}
-    />
-  ));
+    const selectedValue: number = parseInt(event.target.value, 10);
+    
+    DartCtx.setPlayerQuantity(selectedValue);
+  };
+  
+  const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => {
+    return (
+      <PlayerForm
+        key={i}
+        playerN={`Player ${i + 1}`}
+        playerId={`p${i}`}
+      />
+    );
+  });
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+    console.log(playerRefs)
+
     const enteredMaxScore: number = parseInt(
       DartCtx.maxScoreRef.current!.value
     );
