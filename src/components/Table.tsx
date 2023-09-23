@@ -15,8 +15,6 @@ const Table = () => {
     DartCtx.players.map((player) => {
       const name = player.name;
 
-      // console.log(player.totalPoints)
-
       if (name !== null) {
         const newObj = {
           [name]: "",
