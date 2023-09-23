@@ -1,35 +1,70 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import PlayerForm from "../layout/PlayerForm";
 import { DartContext } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
 const Form = () => {
-  const DartCtx = useContext(DartContext);  
-  const playerRefs = useRef([])
-  
+  const DartCtx = useContext(DartContext);
+
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-
     const selectedValue: number = parseInt(event.target.value, 10);
-    
+
     DartCtx.setPlayerQuantity(selectedValue);
   };
-  
+
+  interface PlayerData {
+    [key: string]: string;
+  }
+
+  let inputValuesObj: PlayerData;
+
+  const playerDataArray: PlayerData[] = [];
+
+  const onPlayerInputsHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value, name } = event.target;
+
+    const obj: PlayerData = {};
+    obj[name] = value;
+
+    playerDataArray.push(obj);
+
+    inputValuesObj = Object.assign({}, ...playerDataArray);
+  };
+
+  useEffect(() => {
+    const newObj = Object.values(inputValuesObj).map((val) => {
+      const id = Math.floor(Math.random() * 100000);
+      const obj = {
+        id: id,
+        name: val as string | null,
+        totalPoints: DartCtx.maxScore,
+      };
+      return obj;
+    });
+
+    console.log(newObj);
+
+    // DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
+  }, [DartCtx.playerQuantity]);
+
   const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => {
     return (
       <PlayerForm
         key={i}
         playerN={`Player ${i + 1}`}
         playerId={`p${i}`}
+        onChange={onPlayerInputsHandler}
       />
     );
   });
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(playerRefs)
 
     const enteredMaxScore: number = parseInt(
       DartCtx.maxScoreRef.current!.value
@@ -42,18 +77,6 @@ const Form = () => {
       score: "",
     };
 
-    const inputValues = playerRefs.current.map((inputRef) => inputRef?.value);
-
-    const newObj = inputValues.map((val) => {
-      const id = Math.floor(Math.random() * 100000);
-      const obj = {
-        id: id,
-        name: val as string | null,
-        totalPoints: enteredMaxScore,
-      };
-      return obj;
-    });
-
     if (DartCtx.playerQuantity === 0) {
       errorObj.players = "You need to select minimum of 2 players";
     }
@@ -65,7 +88,6 @@ const Form = () => {
     DartCtx.setErrors((prevState) => ({ ...prevState, ...errorObj }));
 
     if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
-      DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
       DartCtx.setIsSubmitted(true);
     }
   };
