@@ -1,10 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PlayerForm from "../layout/PlayerForm";
 import { DartContext } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
+export interface PlayerData {
+  [key: string]: string;
+}
+
 const Form = () => {
+  const [playerNames, setPlayerNames] = useState<PlayerData>({});
   const DartCtx = useContext(DartContext);
 
   const playerQuantityHandler = (
@@ -15,47 +20,80 @@ const Form = () => {
     DartCtx.setPlayerQuantity(selectedValue);
   };
 
-  interface PlayerData {
-    [key: string]: string;
-  }
+  // let inputValuesObj: PlayerData = {};
 
-  let inputValuesObj: PlayerData;
-
-  const playerDataArray: PlayerData[] = [];
+  // const playerDataArray: PlayerData[] = [];
 
   const onPlayerInputsHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value, name } = event.target;
+    console.log(value, name);
 
-    const obj: PlayerData = {};
-    obj[name] = value;
+    console.log(playerNames);
 
-    playerDataArray.push(obj);
+    // setPlayerNames((prevState) => {
+    //   const newState = { ...prevState, [name]: value };
+    //   console.log("New State:", newState);
+    //   return newState;
+    // });
+    // console.log(playerNames)
 
-    inputValuesObj = Object.assign({}, ...playerDataArray);
+    // const obj: PlayerData = {};
+    // obj[name] = value;
+
+    // playerDataArray.push(obj);
+
+    // inputValuesObj = Object.assign({}, ...playerDataArray);
   };
 
-  useEffect(() => {
-    if (DartCtx.playerQuantity !== 0) {
-      DartCtx.setErrors((prevState) => ({ ...prevState, players: "" }));
-    }
-    console.log(DartCtx.maxScoreRef.current?.value)
-    // if (parseInt(DartCtx.maxScoreRef.current!.value) !== 0) {
-    //   DartCtx.setErrors((prevState) => ({ ...prevState, score: "" }));
-    // }
-  }, [DartCtx.maxScoreRef.current?.value, DartCtx.playerQuantity]);
-
-  const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => {
+  const inputFields = Object.keys(playerNames).map((key, i) => {
     return (
       <PlayerForm
         key={i}
-        playerN={`Player ${i + 1}`}
-        playerId={`p${i}`}
+        playerN={`Player${i + 1}`}
+        playerId={i}
+        playerVal={key}
+        state={playerNames}
         onChange={onPlayerInputsHandler}
       />
     );
   });
+
+  // const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => {
+  //   const val = playerNames[`Player ${i + 1}`];
+  //   return (
+  //     <PlayerForm
+  //       key={i}
+  //       playerN={`Player ${i + 1}`}
+  //       playerId={i}
+  //       playerVal={val}
+  //       onChange={onPlayerInputsHandler}
+  //     />
+  //   );
+  // });
+
+  useEffect(() => {
+    const newPlayerNames: PlayerData = {};
+
+    for (let i = 0; i < DartCtx.playerQuantity; i++) {
+      newPlayerNames[`Player${i + 1}`] = playerNames[`Player${i + 1}`] || "";
+    }
+
+    setPlayerNames(newPlayerNames);
+
+    // inputValuesObj = {};
+  }, [DartCtx.playerQuantity]);
+
+  // useEffect(() => {
+  //   if (DartCtx.playerQuantity !== 0) {
+  //     DartCtx.setErrors((prevState) => ({ ...prevState, players: "" }));
+  //   }
+  //   // console.log(DartCtx.maxScoreRef.current?.value)
+  //   // if (parseInt(DartCtx.maxScoreRef.current!.value) !== 0) {
+  //   //   DartCtx.setErrors((prevState) => ({ ...prevState, score: "" }));
+  //   // }
+  // }, [DartCtx.maxScoreRef.current?.value, DartCtx.playerQuantity]);
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -81,21 +119,19 @@ const Form = () => {
 
     DartCtx.setErrors((prevState) => ({ ...prevState, ...errorObj }));
 
-    if (
-      inputValuesObj &&
-      DartCtx.playerQuantity !== 0 &&
-      enteredMaxScore !== 0
-    ) {
-      const newObj = Object.values(inputValuesObj).map((val) => {
-        const id = Math.floor(Math.random() * 100000);
-        const obj = {
-          id: id,
-          name: val as string | null,
-          totalPoints: enteredMaxScore,
-        };
-        return obj;
-      });
+    const newObj = Object.values(playerNames).map((val) => {
+      const id = Math.floor(Math.random() * 100000);
+      const obj = {
+        id: id,
+        name: val as string | null,
+        totalPoints: DartCtx.maxScore,
+      };
+      return obj;
+    });
 
+    console.log(enteredMaxScore);
+
+    if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
       DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
       DartCtx.setIsSubmitted(true);
     }

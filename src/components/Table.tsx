@@ -24,16 +24,16 @@ const Table = () => {
     });
   }, [DartCtx.players]);
 
-  useEffect(() => {
-    const totals = DartCtx.players.map((player) => player.totalPoints);
-    for (const score of totals) {
-      if (score === 0) {
-        DartCtx.setWinner(true);
-        DartCtx.setPlayers([]);
-        DartCtx.setMaxScore(0);
-      }
-    }
-  }, [DartCtx.players]);
+  // useEffect(() => {
+  //   const totals = DartCtx.players.map((player) => player.totalPoints);
+  //   for (const score of totals) {
+  //     if (score === 0) {
+  //       DartCtx.setWinner(true);
+  //       DartCtx.setPlayers([]);
+  //       DartCtx.setMaxScore(0);
+  //     }
+  //   }
+  // }, [DartCtx.players]);
 
   const playerTable = DartCtx.players.map((player) => {
     return (
