@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { DartContext } from "../store/dart-context";
-
 type Props = {
   title: string;
   id: string;
@@ -10,7 +7,6 @@ type Props = {
 };
 
 const SelectComp = ({ title, id, defaultValue, options, onChange }: Props) => {
-  const DartCtx = useContext(DartContext);
 
   return (
     <div className="flex gap-3 items-center">
@@ -22,7 +18,6 @@ const SelectComp = ({ title, id, defaultValue, options, onChange }: Props) => {
         id={id}
         defaultValue={defaultValue}
         onChange={onChange}
-        ref={DartCtx.maxScoreRef}
         className="appearance-none bg-white border border-gray-400 focus:border-gray-600 hover:border-gray-500 px-5 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
       >
         <option disabled value={defaultValue}>

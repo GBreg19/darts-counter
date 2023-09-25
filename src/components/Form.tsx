@@ -12,66 +12,41 @@ const Form = () => {
   const [playerNames, setPlayerNames] = useState<PlayerData>({});
   const DartCtx = useContext(DartContext);
 
+  // console.log(DartCtx.maxScoreRef.)
+
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedValue: number = parseInt(event.target.value, 10);
 
     DartCtx.setPlayerQuantity(selectedValue);
+    console.log(event.target.value);
   };
 
-  // let inputValuesObj: PlayerData = {};
-
-  // const playerDataArray: PlayerData[] = [];
+  const maxScoreHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue: number = parseInt(event.target.value, 10);
+    DartCtx.setMaxScore(selectedValue);
+  };
 
   const onPlayerInputsHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { value, name } = event.target;
-    console.log(value, name);
+    const { name, value } = event.target;
 
-    console.log(playerNames);
-
-    // setPlayerNames((prevState) => {
-    //   const newState = { ...prevState, [name]: value };
-    //   console.log("New State:", newState);
-    //   return newState;
-    // });
-    // console.log(playerNames)
-
-    // const obj: PlayerData = {};
-    // obj[name] = value;
-
-    // playerDataArray.push(obj);
-
-    // inputValuesObj = Object.assign({}, ...playerDataArray);
+    setPlayerNames((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const inputFields = Object.keys(playerNames).map((key, i) => {
+  const inputFields = Object.values(playerNames).map((val, i) => {
     return (
       <PlayerForm
         key={i}
         playerN={`Player${i + 1}`}
         playerId={i}
-        playerVal={key}
-        state={playerNames}
+        playerVal={val}
         onChange={onPlayerInputsHandler}
       />
     );
   });
-
-  // const inputFields = Array.from({ length: DartCtx.playerQuantity }, (_, i) => {
-  //   const val = playerNames[`Player ${i + 1}`];
-  //   return (
-  //     <PlayerForm
-  //       key={i}
-  //       playerN={`Player ${i + 1}`}
-  //       playerId={i}
-  //       playerVal={val}
-  //       onChange={onPlayerInputsHandler}
-  //     />
-  //   );
-  // });
 
   useEffect(() => {
     const newPlayerNames: PlayerData = {};
@@ -81,28 +56,19 @@ const Form = () => {
     }
 
     setPlayerNames(newPlayerNames);
-
-    // inputValuesObj = {};
   }, [DartCtx.playerQuantity]);
 
-  // useEffect(() => {
-  //   if (DartCtx.playerQuantity !== 0) {
-  //     DartCtx.setErrors((prevState) => ({ ...prevState, players: "" }));
-  //   }
-  //   // console.log(DartCtx.maxScoreRef.current?.value)
-  //   // if (parseInt(DartCtx.maxScoreRef.current!.value) !== 0) {
-  //   //   DartCtx.setErrors((prevState) => ({ ...prevState, score: "" }));
-  //   // }
-  // }, [DartCtx.maxScoreRef.current?.value, DartCtx.playerQuantity]);
+  useEffect(() => {
+    if (DartCtx.playerQuantity !== 0) {
+      DartCtx.setErrors((prevState) => ({ ...prevState, players: "" }));
+    }
+    if (DartCtx.maxScore !== 0) {
+      DartCtx.setErrors((prevState) => ({ ...prevState, score: "" }));
+    }
+  }, [DartCtx.maxScore, DartCtx.playerQuantity]);
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const enteredMaxScore: number = parseInt(
-      DartCtx.maxScoreRef.current!.value
-    );
-
-    DartCtx.setMaxScore(enteredMaxScore);
 
     const errorObj = {
       players: "",
@@ -113,7 +79,7 @@ const Form = () => {
       errorObj.players = "You need to select minimum of 2 players";
     }
 
-    if (enteredMaxScore === 0) {
+    if (DartCtx.maxScore === 0) {
       errorObj.score = "You have to select score";
     }
 
@@ -129,9 +95,7 @@ const Form = () => {
       return obj;
     });
 
-    console.log(enteredMaxScore);
-
-    if (DartCtx.playerQuantity !== 0 && enteredMaxScore !== 0) {
+    if (DartCtx.playerQuantity !== 0 && DartCtx.maxScore !== 0) {
       DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
       DartCtx.setIsSubmitted(true);
     }
@@ -170,6 +134,7 @@ const Form = () => {
               id="score"
               defaultValue="0"
               options={[150, 200, 250, 300]}
+              onChange={maxScoreHandler}
             />
 
             {DartCtx.errors.score && (
