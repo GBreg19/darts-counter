@@ -6,7 +6,7 @@ export type PlayerObj = {
   totalPoints: number;
 };
 
-type PlayerScores = {
+export type PlayerData = {
   [key: string]: string;
 };
 
@@ -24,8 +24,10 @@ type DartContextType = {
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
   players: PlayerObj[];
   setPlayers: React.Dispatch<React.SetStateAction<PlayerObj[]>>;
-  inputValues: PlayerScores;
-  setInputValues: React.Dispatch<React.SetStateAction<PlayerScores>>;
+  playerNames: PlayerData;
+  setPlayerNames: React.Dispatch<React.SetStateAction<PlayerData>>;
+  inputValues: PlayerData;
+  setInputValues: React.Dispatch<React.SetStateAction<PlayerData>>;
   winner: boolean;
   setWinner: React.Dispatch<React.SetStateAction<boolean>>;
   errors: ErrorObj;
@@ -41,6 +43,8 @@ export const DartContext = createContext<DartContextType>({
   setIsSubmitted: () => {},
   players: [],
   setPlayers: () => {},
+  playerNames: {},
+  setPlayerNames: () => {},
   inputValues: {},
   setInputValues: () => {},
   winner: false,
@@ -61,7 +65,8 @@ const DartContextProvider = (props: Props) => {
   const [playerQuantity, setPlayerQuantity] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
   const [players, setPlayers] = useState<PlayerObj[]>([]);
-  const [inputValues, setInputValues] = useState<PlayerScores>({});
+  const [playerNames, setPlayerNames] = useState<PlayerData>({});
+  const [inputValues, setInputValues] = useState<PlayerData>({});
   const [winner, setWinner] = useState(false);
   const [errors, setErrors] = useState<ErrorObj>({
     players: "",
@@ -77,6 +82,8 @@ const DartContextProvider = (props: Props) => {
     setIsSubmitted,
     players,
     setPlayers,
+    playerNames,
+    setPlayerNames,
     inputValues,
     setInputValues,
     winner,

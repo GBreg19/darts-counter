@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
-// import { LuRefreshCcw } from "react-icons/lu";
+import { LuRefreshCcw } from "react-icons/lu";
 
 const Table = () => {
   const DartCtx = useContext(DartContext);
@@ -24,16 +24,15 @@ const Table = () => {
     });
   }, [DartCtx.players]);
 
-  // useEffect(() => {
-  //   const totals = DartCtx.players.map((player) => player.totalPoints);
-  //   for (const score of totals) {
-  //     if (score === 0) {
-  //       DartCtx.setWinner(true);
-  //       DartCtx.setPlayers([]);
-  //       DartCtx.setMaxScore(0);
-  //     }
-  //   }
-  // }, [DartCtx.players]);
+  useEffect(() => {
+    const totals = DartCtx.players.map((player) => player.totalPoints);
+    for (const score of totals) {
+      if (score === 0) {
+        DartCtx.setWinner(true);
+        DartCtx.setMaxScore(0);
+      }
+    }
+  }, [DartCtx.players]);
 
   const playerTable = DartCtx.players.map((player) => {
     return (
@@ -46,12 +45,12 @@ const Table = () => {
     );
   });
 
-  const playerPointsInputs = Object.keys(DartCtx.inputValues).map((key) => {
+  const playerPointsInputs = DartCtx.players.map((player, i) => {
     return (
       <Input
-        key={key}
-        name={key}
-        value={DartCtx.inputValues[key]}
+        key={i}
+        name={player.name}
+        value={DartCtx.inputValues[player.name!]}
         onChange={playerInputHandler}
         setIsFocused={setIsInputActive}
       />
@@ -62,12 +61,19 @@ const Table = () => {
     <div className=" m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
       <div className="relative">
         <h1 className="text-4xl text-center">Let's Play!</h1>
-        {/* <button
+        <button
           className="absolute top-1/2 -translate-y-1/2 right-10 text-xl"
           title="Refresh"
+          onClick={() => {
+            DartCtx.setMaxScore(0);
+            DartCtx.setPlayers([]);
+            DartCtx.setPlayerQuantity(0);
+            DartCtx.setPlayerNames({});
+            DartCtx.setIsSubmitted(false);
+          }}
         >
           <LuRefreshCcw />
-        </button> */}
+        </button>
       </div>
       <div className={`w-full mt-5 justify-between px-5`}>
         <div className="flex">{playerTable}</div>

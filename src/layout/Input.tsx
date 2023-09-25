@@ -27,15 +27,11 @@ const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
       const surplus = updatingPlayer!.totalPoints - convertedValue;
       const newTotal = DartCtx.maxScore + surplus;
       updatingPlayer!.totalPoints = newTotal;
-    }
-    // if (
-    //   value &&
-    //   updatingPlayer!.totalPoints > 0 &&
-    //   updatingPlayer!.totalPoints - convertedValue >= 0
-    // )
-    else {
-      updatingPlayer!.totalPoints =
-        updatingPlayer!.totalPoints - convertedValue;
+    } else {
+      if (convertedValue) {
+        updatingPlayer!.totalPoints =
+          updatingPlayer!.totalPoints - convertedValue;
+      }
     }
     DartCtx.setPlayers(updatedPlayer);
   };

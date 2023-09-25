@@ -7,7 +7,6 @@ function App() {
   const DartCtx = useContext(DartContext);
   const winner = DartCtx.players.find((player) => player.totalPoints === 0);
 
-  // console.log(winner)
 
   return (
     <Fragment>

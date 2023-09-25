@@ -1,18 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import PlayerForm from "../layout/PlayerForm";
-import { DartContext } from "../store/dart-context";
+import { DartContext, PlayerData } from "../store/dart-context";
 import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
-export interface PlayerData {
-  [key: string]: string;
-}
-
 const Form = () => {
-  const [playerNames, setPlayerNames] = useState<PlayerData>({});
   const DartCtx = useContext(DartContext);
-
-  // console.log(DartCtx.maxScoreRef.)
 
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -20,7 +13,6 @@ const Form = () => {
     const selectedValue: number = parseInt(event.target.value, 10);
 
     DartCtx.setPlayerQuantity(selectedValue);
-    console.log(event.target.value);
   };
 
   const maxScoreHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,10 +25,10 @@ const Form = () => {
   ) => {
     const { name, value } = event.target;
 
-    setPlayerNames((prevState) => ({ ...prevState, [name]: value }));
+    DartCtx.setPlayerNames((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const inputFields = Object.values(playerNames).map((val, i) => {
+  const inputFields = Object.values(DartCtx.playerNames).map((val, i) => {
     return (
       <PlayerForm
         key={i}
@@ -52,10 +44,11 @@ const Form = () => {
     const newPlayerNames: PlayerData = {};
 
     for (let i = 0; i < DartCtx.playerQuantity; i++) {
-      newPlayerNames[`Player${i + 1}`] = playerNames[`Player${i + 1}`] || "";
+      newPlayerNames[`Player${i + 1}`] =
+        DartCtx.playerNames[`Player${i + 1}`] || "";
     }
 
-    setPlayerNames(newPlayerNames);
+    DartCtx.setPlayerNames(newPlayerNames);
   }, [DartCtx.playerQuantity]);
 
   useEffect(() => {
@@ -85,7 +78,7 @@ const Form = () => {
 
     DartCtx.setErrors((prevState) => ({ ...prevState, ...errorObj }));
 
-    const newObj = Object.values(playerNames).map((val) => {
+    const newObj = Object.values(DartCtx.playerNames).map((val) => {
       const id = Math.floor(Math.random() * 100000);
       const obj = {
         id: id,
