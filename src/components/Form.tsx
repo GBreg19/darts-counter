@@ -107,7 +107,7 @@ const Form = () => {
       ></div>
       <form
         onSubmit={formSubmit}
-        className="m-auto w-1/4 flex flex-col justify-between max-h-[500px] bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3"
+        className="m-auto w-1/4 flex flex-col justify-between max-h-[500px] bg-white bg-opacity-80 rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3"
       >
         <div className="py-1 rounded-t-md bg-dartGreen">
           <div className="w-1/3 m-auto flex flex-col items-center">

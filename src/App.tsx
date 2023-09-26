@@ -23,7 +23,7 @@ function App() {
                 <span className="transform rotate-90 absolute -left-10 top-1/4 -translate-y-1/3">
                   <GiDart className="transform rotate-45 text-3xl text-yellow-600" />
                 </span>
-                <h1 className="text-4xl font-bold mb-5 font-lobsterReg tracking-wide">Darts Counter!</h1>
+                <h1 className="text-4xl font-bold mb-5 font-lobsterReg tracking-wide text-red-800">Darts Counter</h1>
                 <span className="transform -rotate-90 absolute -right-10 top-1/4 -translate-y-1/3">
                   <GiDart className="transform rotate-45 text-3xl text-yellow-600" />
                 </span>
@@ -35,8 +35,8 @@ function App() {
               className="bg-gradient-to-r from-dartGreen from-50%  to-dartRed to-50% border-2 border-black border-transparent hover:from-dartRed hover:to-dartGreen hover:border-white text-white font-semibold text-xl py-3 w-48 rounded group"
             >
               <span className="flex justify-around">
-                <span className="group-hover:text-black">Start</span>
-                <span className="text-black group-hover:text-white">
+                <span className="group-hover:text-black w-20">Start</span>
+                <span className="text-black group-hover:text-white w-20">
                   Playing
                 </span>
               </span>
