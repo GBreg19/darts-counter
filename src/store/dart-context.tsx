@@ -32,6 +32,7 @@ type DartContextType = {
   setWinner: React.Dispatch<React.SetStateAction<boolean>>;
   errors: ErrorObj;
   setErrors: React.Dispatch<React.SetStateAction<ErrorObj>>;
+  startAgain: () => void;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -54,6 +55,7 @@ export const DartContext = createContext<DartContextType>({
     score: "",
   },
   setErrors: () => {},
+  startAgain: () => {},
 });
 
 type Props = {
@@ -73,6 +75,15 @@ const DartContextProvider = (props: Props) => {
     score: "",
   });
 
+  const startAgain = () => {
+    setMaxScore(0);
+    setPlayers([]);
+    setPlayerQuantity(0);
+    setPlayerNames({});
+    setIsSubmitted(false);
+    setWinner(false)
+  };
+
   const contextValue: DartContextType = {
     playerQuantity: playerQuantity,
     setPlayerQuantity,
@@ -90,6 +101,7 @@ const DartContextProvider = (props: Props) => {
     setWinner,
     errors,
     setErrors,
+    startAgain,
   };
 
   return (

@@ -64,13 +64,7 @@ const Table = () => {
         <button
           className="absolute top-1/2 -translate-y-1/2 right-10 text-xl"
           title="Refresh"
-          onClick={() => {
-            DartCtx.setMaxScore(0);
-            DartCtx.setPlayers([]);
-            DartCtx.setPlayerQuantity(0);
-            DartCtx.setPlayerNames({});
-            DartCtx.setIsSubmitted(false);
-          }}
+          onClick={DartCtx.startAgain}
         >
           <LuRefreshCcw />
         </button>
