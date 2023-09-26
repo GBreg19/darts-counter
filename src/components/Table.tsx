@@ -58,7 +58,7 @@ const Table = () => {
   });
 
   return (
-    <div className=" m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
+    <div className="m-auto bg-white rounded-md absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 py-5">
       <div className="relative">
         <h1 className="text-4xl text-center">Let's Play!</h1>
         <button

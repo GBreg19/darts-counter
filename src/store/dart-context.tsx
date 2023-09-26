@@ -33,6 +33,8 @@ type DartContextType = {
   errors: ErrorObj;
   setErrors: React.Dispatch<React.SetStateAction<ErrorObj>>;
   startAgain: () => void;
+  isStartingPage: boolean;
+  setIsStartingPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DartContext = createContext<DartContextType>({
@@ -56,6 +58,8 @@ export const DartContext = createContext<DartContextType>({
   },
   setErrors: () => {},
   startAgain: () => {},
+  isStartingPage: true,
+  setIsStartingPage: () => {},
 });
 
 type Props = {
@@ -74,6 +78,7 @@ const DartContextProvider = (props: Props) => {
     players: "",
     score: "",
   });
+  const [isStartingPage, setIsStartingPage] = useState(true);
 
   const startAgain = () => {
     setMaxScore(0);
@@ -81,7 +86,7 @@ const DartContextProvider = (props: Props) => {
     setPlayerQuantity(0);
     setPlayerNames({});
     setIsSubmitted(false);
-    setWinner(false)
+    setWinner(false);
   };
 
   const contextValue: DartContextType = {
@@ -102,6 +107,8 @@ const DartContextProvider = (props: Props) => {
     errors,
     setErrors,
     startAgain,
+    isStartingPage,
+    setIsStartingPage,
   };
 
   return (

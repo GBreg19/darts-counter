@@ -14,3 +14,8 @@ body {
   background-color: #222e50;
 }
 
+@font-face {
+  font-family: "LobsterReg";
+  src: url("../fonts/Lobster-Regular.ttf");
+}
+
