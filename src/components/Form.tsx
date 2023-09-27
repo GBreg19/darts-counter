@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import PlayerForm from "../layout/PlayerForm";
 import { DartContext, PlayerData } from "../store/dart-context";
+import PlayerForm from "../layout/PlayerForm";
 import SelectComp from "../layout/SelectComp";
 import { GiDart } from "react-icons/gi";
 
@@ -26,6 +26,13 @@ const Form = () => {
     const { name, value } = event.target;
 
     DartCtx.setPlayerNames((prevState) => ({ ...prevState, [name]: value }));
+
+    if (value) {
+      DartCtx.setErrors((prevState) => {
+        const { [name]: omit, ...restErrors } = prevState;
+        return restErrors;
+      });
+    }
   };
 
   const inputFields = Object.values(DartCtx.playerNames).map((val, i) => {
@@ -53,27 +60,39 @@ const Form = () => {
 
   useEffect(() => {
     if (DartCtx.playerQuantity !== 0) {
-      DartCtx.setErrors((prevState) => ({ ...prevState, players: "" }));
+      DartCtx.setErrors((prevState) => {
+        const { players, ...restErrors } = prevState;
+        return restErrors;
+      });
     }
     if (DartCtx.maxScore !== 0) {
-      DartCtx.setErrors((prevState) => ({ ...prevState, score: "" }));
+      DartCtx.setErrors((prevState) => {
+        const { score, ...restErrors } = prevState;
+        return restErrors;
+      });
     }
   }, [DartCtx.maxScore, DartCtx.playerQuantity]);
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const errorObj = {
-      players: "",
-      score: "",
-    };
+    const errorObj: PlayerData = {};
 
     if (DartCtx.playerQuantity === 0) {
-      errorObj.players = "You need to select minimum of 2 players";
+      errorObj.players = "Select at least 1 player";
     }
 
     if (DartCtx.maxScore === 0) {
-      errorObj.score = "You have to select score";
+      errorObj.score = "Select a score";
+    }
+
+    if (DartCtx.playerNames) {
+      Object.entries(DartCtx.playerNames).map((entries) => {
+        const [key, value] = entries;
+        if (!value) {
+          errorObj[key] = "Please enter a name";
+        }
+      });
     }
 
     DartCtx.setErrors((prevState) => ({ ...prevState, ...errorObj }));
@@ -88,7 +107,7 @@ const Form = () => {
       return obj;
     });
 
-    if (DartCtx.playerQuantity !== 0 && DartCtx.maxScore !== 0) {
+    if (Object.keys(DartCtx.errors).length === 0) {
       DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
       DartCtx.setIsSubmitted(true);
     }
@@ -120,7 +139,7 @@ const Form = () => {
             <div>
               <SelectComp
                 title="Number of players"
-                id="playerNum"
+                id="players"
                 defaultValue="0"
                 options={[1, 2, 3, 4]}
                 onChange={playerQuantityHandler}

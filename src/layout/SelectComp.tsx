@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { DartContext } from "../store/dart-context";
+
 type Props = {
   title: string;
   id: string;
@@ -7,6 +10,7 @@ type Props = {
 };
 
 const SelectComp = ({ title, id, defaultValue, options, onChange }: Props) => {
+  const DartCtx = useContext(DartContext);
 
   return (
     <div className="flex gap-3 items-center">
@@ -18,7 +22,11 @@ const SelectComp = ({ title, id, defaultValue, options, onChange }: Props) => {
         id={id}
         defaultValue={defaultValue}
         onChange={onChange}
-        className="appearance-none bg-white border border-gray-400 focus:border-gray-600 hover:border-gray-500 px-5 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+        className={`appearance-none bg-white border px-5 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline ${
+          DartCtx.errors[id]
+            ? "border-red-400 focus:border-red-600 hover:border-red-500"
+            : "border-gray-400 focus:border-gray-600 hover:border-gray-500"
+        }`}
       >
         <option disabled value={defaultValue}>
           {defaultValue}

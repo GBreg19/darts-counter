@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { DartContext } from "../store/dart-context";
+
 type PlayerFormProps = {
   playerN: string;
   playerId: number;
@@ -11,9 +14,14 @@ const PlayerForm = ({
   playerVal,
   onChange,
 }: PlayerFormProps) => {
-  const convertedId = playerId.toString();
+  const DartCtx = useContext(DartContext);
+  const convertedId = (playerId + 1).toString();
 
   const inputName: string = playerN ? playerN : "";
+
+  const placeholderText = DartCtx.errors[`Player${convertedId}`]
+    ? "This field is required!"
+    : "Type name";
 
   return (
     <div className="flex gap-5 my-3 items-center">
@@ -25,8 +33,13 @@ const PlayerForm = ({
         name={inputName}
         id={convertedId}
         value={playerVal}
-        placeholder="Type name"
-        className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full basis-10/12"
+        placeholder={placeholderText}
+        className={`shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full basis-10/12 
+        ${
+          DartCtx.errors[`Player${convertedId}`]
+            ? "border-red-500 placeholder:text-red-500"
+            : "border-gray-300"
+        }`}
         onChange={onChange}
       />
     </div>

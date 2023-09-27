@@ -10,11 +10,6 @@ export type PlayerData = {
   [key: string]: string;
 };
 
-type ErrorObj = {
-  players: string;
-  score: string;
-};
-
 type DartContextType = {
   playerQuantity: number;
   setPlayerQuantity: React.Dispatch<React.SetStateAction<number>>;
@@ -30,8 +25,8 @@ type DartContextType = {
   setInputValues: React.Dispatch<React.SetStateAction<PlayerData>>;
   winner: boolean;
   setWinner: React.Dispatch<React.SetStateAction<boolean>>;
-  errors: ErrorObj;
-  setErrors: React.Dispatch<React.SetStateAction<ErrorObj>>;
+  errors: PlayerData;
+  setErrors: React.Dispatch<React.SetStateAction<PlayerData>>;
   startAgain: () => void;
   isStartingPage: boolean;
   setIsStartingPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -74,7 +69,7 @@ const DartContextProvider = (props: Props) => {
   const [playerNames, setPlayerNames] = useState<PlayerData>({});
   const [inputValues, setInputValues] = useState<PlayerData>({});
   const [winner, setWinner] = useState(false);
-  const [errors, setErrors] = useState<ErrorObj>({
+  const [errors, setErrors] = useState<PlayerData>({
     players: "",
     score: "",
   });
