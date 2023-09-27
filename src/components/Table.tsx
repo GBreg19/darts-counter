@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { DartContext } from "../store/dart-context";
 import Input from "../layout/Input";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -34,26 +34,23 @@ const Table = () => {
     }
   }, [DartCtx.players]);
 
-  const playerTable = DartCtx.players.map((player) => {
+  const playerTable = DartCtx.players.map((player, i) => {
     return (
-      <h1
-        key={player.id}
-        className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-full"
-      >
-        {player.name} ({player.totalPoints})
-      </h1>
-    );
-  });
-
-  const playerPointsInputs = DartCtx.players.map((player, i) => {
-    return (
-      <Input
-        key={i}
-        name={player.name}
-        value={DartCtx.inputValues[player.name!]}
-        onChange={playerInputHandler}
-        setIsFocused={setIsInputActive}
-      />
+      <div className="flex">
+        <h1
+          key={player.id}
+          className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-full"
+        >
+          {player.name} ({player.totalPoints})
+        </h1>
+        <Input
+          key={i}
+          name={player.name}
+          value={DartCtx.inputValues[player.name!]}
+          onChange={playerInputHandler}
+          setIsFocused={setIsInputActive}
+        />
+      </div>
     );
   });
 
@@ -69,10 +66,7 @@ const Table = () => {
           <LuRefreshCcw />
         </button>
       </div>
-      <div className={`w-full mt-5 justify-between px-5`}>
-        <div className="flex">{playerTable}</div>
-        <div className="flex">{playerPointsInputs}</div>
-      </div>
+      <section className="mt-5 px-5">{playerTable}</section>
     </div>
   );
 };

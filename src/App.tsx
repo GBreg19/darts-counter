@@ -10,8 +10,8 @@ function App() {
 
   return (
     <Fragment>
-      {/* {DartCtx.isStartingPage && <StartingPage />} */}
-      {/* {!DartCtx.isStartingPage && ( */}
+      {DartCtx.isStartingPage && <StartingPage />}
+      {!DartCtx.isStartingPage && (
         <>
           {!DartCtx.isSubmitted && <Form />}
           {DartCtx.isSubmitted && <Table />}
@@ -26,7 +26,7 @@ function App() {
             <h1>AAAAAAAAAAND THE WINNER IS - {winner?.name}!</h1>
           </div>
         </>
-      {/* )} */}
+      )}
     </Fragment>
   );
 }
