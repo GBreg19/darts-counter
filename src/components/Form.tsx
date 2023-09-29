@@ -6,6 +6,7 @@ import { GiDart } from "react-icons/gi";
 
 const Form = () => {
   const DartCtx = useContext(DartContext);
+  const errorObj: PlayerData = {};
 
   const playerQuantityHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -76,8 +77,6 @@ const Form = () => {
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const errorObj: PlayerData = {};
-
     if (DartCtx.playerQuantity === 0) {
       errorObj.players = "Select at least 1 player";
     }
@@ -107,7 +106,15 @@ const Form = () => {
       return obj;
     });
 
-    if (Object.keys(DartCtx.errors).length === 0) {
+    const valuesAreValid = Object.values(DartCtx.playerNames).every(
+      (val) => val.length !== 0
+    );
+
+    if (
+      DartCtx.maxScore !== 0 &&
+      DartCtx.playerQuantity !== 0 &&
+      valuesAreValid
+    ) {
       DartCtx.setPlayers((prevState) => [...prevState, ...newObj]);
       DartCtx.setIsSubmitted(true);
     }

@@ -36,15 +36,11 @@ const Table = () => {
 
   const playerTable = DartCtx.players.map((player, i) => {
     return (
-      <div className="flex">
-        <h1
-          key={player.id}
-          className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-full"
-        >
+      <div className="flex" key={player.id}>
+        <h1 className="text-2xl capitalize font-medium bg-gray-200 p-2 text-center w-full">
           {player.name} ({player.totalPoints})
         </h1>
         <Input
-          key={i}
           name={player.name}
           value={DartCtx.inputValues[player.name!]}
           onChange={playerInputHandler}

@@ -18,15 +18,17 @@ const PlayerForm = ({
   const convertedId = (playerId + 1).toString();
 
   const inputName: string = playerN ? playerN : "";
+  const formattedName = inputName.replace(/(\D)(\d)/, '$1 $2')
 
   const placeholderText = DartCtx.errors[`Player${convertedId}`]
     ? "This field is required!"
     : "Type name";
 
+
   return (
     <div className="flex gap-5 my-3 items-center">
       <label htmlFor={convertedId} className="text-lg basis-2/12">
-        {playerN}
+        {formattedName}
       </label>
       <input
         type="text"

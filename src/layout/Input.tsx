@@ -41,7 +41,7 @@ const Input = ({ onChange, setIsFocused, name, value }: InpProps) => {
       type="number"
       name={name || undefined}
       value={value || ""}
-      placeholder="0"
+      placeholder="Points"
       className="appearance-none w-full border px-2 py-1 focus:border-dartGreen1 focus:outline-none focus:shadow-outline"
       onChange={onInputChange}
       onFocus={() => setIsFocused(true)}
